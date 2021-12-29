@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -11,12 +12,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var DB *sql.DB
+
 func main() {
-	DB := utils.InitDB()
+	DB = utils.InitDB()
 	defer DB.Close()
 
 	router := gin.Default()
-	routes.InitRoutes(router)
+	routes.InitRoutes(router, DB)
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
