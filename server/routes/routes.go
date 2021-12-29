@@ -9,6 +9,7 @@ import (
 
 func InitRoutes(router *gin.Engine, DB *sql.DB) {
 	router.GET("/", controllers.IndexRouteHandler)
-	router.GET("/employees", controllers.GetAllEmployees(DB))
+	router.GET("/employee", controllers.GetAllEmployees(DB))
 	router.GET("/employee/:ssn", controllers.GetEmployee(DB))
+	router.POST("/employee", controllers.AddEmployee(DB))
 }
