@@ -6,6 +6,8 @@ import (
 	"database/sql"
 
 	_ "github.com/go-sql-driver/mysql"
+
+	"github.com/pradeep-selva/dbms-demo/server/entities"
 )
 
 func main() {
@@ -19,31 +21,29 @@ func main() {
 	rows, err := db.Query("select * from employee")
 
 	if err != nil {
-		log.Println("rows")
 		log.Fatal(err)
 	}
 	defer rows.Close()
 
-	var (
-		ssn string
-		fname string
-		lname string
-		bdate string
-		address string
-		sex string
-		salary int
-		super_ssn string
-		dno int
-	)
-
 	for rows.Next() {
-		err := rows.Scan(&ssn, &fname, &lname, &bdate, &address, &sex, &salary, &super_ssn, &dno)
+		var emp entities.Employee
+
+		err := rows.Scan(
+			&emp.Ssn, 
+			&emp.Fname, 
+			&emp.Lname, 
+			&emp.Bdate, 
+			&emp.Address, 
+			&emp.Sex, 
+			&emp.Salary, 
+			&emp.Super_ssn, 
+			&emp.Dno,
+		)
 		if err != nil {
-			log.Println("row")
 			log.Fatal(err)
 		}
 
-		log.Println(ssn)
+		log.Println(emp)
 	}
 
 	defer db.Close()
