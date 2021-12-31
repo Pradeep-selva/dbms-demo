@@ -54,3 +54,25 @@ func AddEmployee(DB *sql.DB) func (c *gin.Context) {
 		})
 	}
 }
+
+func DeleteEmployee(DB *sql.DB) func (c *gin.Context) {
+	return func(c *gin.Context) {
+		SSN, _ := c.Params.Get("ssn")
+
+		query, _ := DB.Prepare(
+			"delete from employee where ssn = ?",
+		)
+		_, err := query.Exec(SSN) 
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Failed to insert working data",
+			})
+			return
+		}	
+
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Employee deleted successfully",
+		})
+	}
+}

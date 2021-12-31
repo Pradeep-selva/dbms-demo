@@ -12,4 +12,5 @@ func InitRoutes(router *gin.Engine, DB *sql.DB) {
 	router.GET("/employee", controllers.GetAllEmployees(DB))
 	router.GET("/employee/:ssn", controllers.GetEmployee(DB))
 	router.POST("/employee", controllers.AddEmployee(DB))
+	router.DELETE("/employee/:ssn", controllers.DeleteEmployee(DB))
 }
