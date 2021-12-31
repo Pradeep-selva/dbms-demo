@@ -61,7 +61,10 @@ func GetAllEmployees(DB *sql.DB) func (c *gin.Context) {
 func GetEmployee(DB *sql.DB) func (c *gin.Context) {
 	return func (c *gin.Context) {
 		SSN, _ := c.Params.Get("ssn")
-		rows, err := DB.Query("select * from employee where ssn = ?", SSN)
+		rows, err := DB.Query(
+			"select ssn, fname, lname, bdate, address, sex, salary, super_ssn, dno, pno, hours, pname, plocation, dname, mgr_ssn, mgr_start_date from employee join works_on on essn = ssn join project on pnumber = pno join department on dno = dnumber where ssn = ?", 
+			SSN,
+		)
 	
 		if err != nil {
 			log.Fatal(err)
@@ -81,6 +84,13 @@ func GetEmployee(DB *sql.DB) func (c *gin.Context) {
 			&employee.Salary, 
 			&employee.Super_ssn, 
 			&employee.Dno,
+			&employee.Pno,
+			&employee.Hours,
+			&employee.Pname,
+			&employee.Plocation,
+			&employee.Dname,
+			&employee.MgrSsn,
+			&employee.MgrStartDate,
 		)
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{
@@ -93,48 +103,3 @@ func GetEmployee(DB *sql.DB) func (c *gin.Context) {
 	}
 }
 
-func AddEmployee(DB *sql.DB) func (c *gin.Context) {
-	return func(c *gin.Context) {
-		var request entities.NewEmployee
-		err := c.Bind(&request)
-		if err != nil {
-			log.Println(request)
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "PARSE",
-			})
-			return	
-		}
-
-		query, err := DB.Prepare(
-			"insert into employee (ssn, fname, lname, bdate, address, sex, salary, super_ssn, dno) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-		)
-		_, err = query.Exec(
-			request.Ssn, request.Fname, request.Lname, request.Bdate, request.Address, request.Sex, request.Salary, request.Super_ssn, request.Dno,
-		) 
-
-		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{
-				"error": "Failed to insert",
-			})
-			return
-		}
-
-		query, err = DB.Prepare(
-			"insert into works_on (essn, pno, hours) values (?, ?, ?)",
-		)
-		_, err = query.Exec(
-			request.Ssn, request.Pno, request.Phours,
-		)
-
-		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{
-				"error": "Failed to insert",
-			})
-			return
-		}
-
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Employee added successfully",
-		})
-	}
-}
