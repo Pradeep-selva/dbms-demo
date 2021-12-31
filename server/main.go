@@ -6,6 +6,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
+	middleware "github.com/pradeep-selva/dbms-demo/server/middlewares"
 	"github.com/pradeep-selva/dbms-demo/server/routes"
 	"github.com/pradeep-selva/dbms-demo/server/utils"
 
@@ -19,6 +20,7 @@ func main() {
 	defer DB.Close()
 
 	router := gin.Default()
+	router.Use(middleware.CORSMiddleware())
 	routes.InitRoutes(router, DB)
 
 	PORT := os.Getenv("PORT")
