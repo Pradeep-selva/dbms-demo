@@ -17,7 +17,7 @@ func IndexRouteHandler(c *gin.Context) {
 
 func GetAllEmployees(DB *sql.DB) func (c *gin.Context) {
 	return func (c *gin.Context) {
-		rows, err := DB.Query("select * from employee")
+		rows, err := DB.Query("select ssn, fname, lname, bdate, dno from employee")
 	
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
@@ -27,20 +27,16 @@ func GetAllEmployees(DB *sql.DB) func (c *gin.Context) {
 		}
 		defer rows.Close()
 
-		var employees []entities.Employee
+		var employees []entities.EmployeeSummary
 
 		for rows.Next() {
-			var employee entities.Employee
+			var employee entities.EmployeeSummary
 
 			err := rows.Scan(
 				&employee.Ssn, 
 				&employee.Fname, 
 				&employee.Lname, 
 				&employee.Bdate, 
-				&employee.Address, 
-				&employee.Sex, 
-				&employee.Salary, 
-				&employee.Super_ssn, 
 				&employee.Dno,
 			)
 			

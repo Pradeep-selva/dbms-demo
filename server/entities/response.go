@@ -1,5 +1,13 @@
 package entities
 
+type EmployeeSummary struct {
+	Ssn string `json:"ssn"`
+	Fname string `json:"fname"`
+	Lname string `json:"lname"`
+	Bdate string `json:"bdate"`
+	Dno int `json:"dno"`
+}
+
 type Employee struct {
 	Ssn string `json:"ssn"`
 	Fname string `json:"fname"`
