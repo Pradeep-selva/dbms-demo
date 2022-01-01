@@ -23,13 +23,6 @@ const Home = () => {
 
   return (
     <Container>
-      <h1
-        style={{
-          marginBottom: "4rem"
-        }}
-      >
-        Employees
-      </h1>
       {employees.map((employee) => (
         <EmployeeSummaryCard {...employee} />
       ))}
