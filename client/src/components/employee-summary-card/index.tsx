@@ -1,7 +1,9 @@
 import React from "react";
-import { Button, Card, CardContent, styled, Typography } from "@mui/material";
+import { Button, Card, CardContent, Typography } from "@mui/material";
 import { EmployeeSummary } from "../../entities";
 import { Box } from "@mui/system";
+import { Link } from "react-router-dom";
+import { getAgeInYears, getCapitalizedName } from "../../utils";
 
 const EmployeeSummaryCard: React.FC<EmployeeSummary> = ({
   bdate,
@@ -10,11 +12,6 @@ const EmployeeSummaryCard: React.FC<EmployeeSummary> = ({
   lname,
   ssn
 }) => {
-  const getAgeInYears = (birthday: string) =>
-    new Date(
-      new Date().valueOf() - new Date(birthday).valueOf()
-    ).getFullYear() - 1970;
-
   return (
     <Card
       variant='outlined'
@@ -43,8 +40,7 @@ const EmployeeSummaryCard: React.FC<EmployeeSummary> = ({
             <b>{ssn}</b>
           </Typography>
           <Typography align='left' color='white'>
-            {!!fname.length && fname[0].toUpperCase() + fname.slice(1)}{" "}
-            {!!lname.length && lname[0].toUpperCase() + lname.slice(1)}
+            {getCapitalizedName(fname, lname)}
           </Typography>
         </Box>
         <Typography align='left' color='white' flex={1}>
@@ -53,9 +49,11 @@ const EmployeeSummaryCard: React.FC<EmployeeSummary> = ({
         <Typography align='left' color='white' flex={1}>
           {getAgeInYears(bdate)} yrs old
         </Typography>
-        <Button variant='outlined' style={{ marginRight: "0.5rem" }}>
-          View
-        </Button>
+        <Link to={`/employee/${ssn}`}>
+          <Button variant='outlined' style={{ marginRight: "0.5rem" }}>
+            View
+          </Button>
+        </Link>
         <Button variant='outlined' color='error'>
           Delete
         </Button>

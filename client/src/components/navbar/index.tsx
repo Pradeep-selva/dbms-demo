@@ -1,6 +1,7 @@
 import { AppBar, Button, Toolbar, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -16,9 +17,11 @@ const Navbar = () => {
         }}
       >
         <Toolbar>
-          <Typography variant='h4' component='div' flex={1}>
-            <b>Employees Management</b>
-          </Typography>
+          <Link to='/' style={{ flex: 1 }}>
+            <Typography variant='h4' component='div'>
+              <b>Employees Management</b>
+            </Typography>
+          </Link>
           <Button variant='outlined'>New Employee</Button>
         </Toolbar>
       </AppBar>
