@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { CircularProgress, Container } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { EmployeeSummary } from "../../entities";
@@ -19,13 +19,13 @@ const Home = () => {
     })();
   }, []);
 
-  console.log(employees);
-
   return (
     <Container>
-      {employees.map((employee) => (
-        <EmployeeSummaryCard {...employee} />
-      ))}
+      {!!employees.length ? (
+        employees.map((employee) => <EmployeeSummaryCard {...employee} />)
+      ) : (
+        <CircularProgress size={100} />
+      )}
     </Container>
   );
 };

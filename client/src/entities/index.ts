@@ -19,3 +19,12 @@ export interface Employee extends EmployeeSummary {
   mgr_ssn: string;
   mgr_start_date: string;
 }
+
+export interface NewEmployee extends EmployeeSummary {
+  address: string;
+  sex: string;
+  salary: number;
+  super_ssn: string;
+  pno: number;
+  phours: number;
+}

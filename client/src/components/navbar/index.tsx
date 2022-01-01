@@ -2,6 +2,7 @@ import { AppBar, Button, Toolbar, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { Link } from "react-router-dom";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
 const Navbar = () => {
   return (
@@ -17,12 +18,25 @@ const Navbar = () => {
         }}
       >
         <Toolbar>
-          <Link to='/' style={{ flex: 1 }}>
-            <Typography variant='h4' component='div'>
+          <Link
+            to='/'
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center"
+            }}
+          >
+            <ManageAccountsIcon
+              style={{ fontSize: "3rem", margin: "1rem 1rem" }}
+            />
+            <Typography variant='h4' component='div' align='left'>
               <b>Employees Management</b>
             </Typography>
           </Link>
-          <Button variant='outlined'>New Employee</Button>
+          <Box flex={1} />
+          <Link to='/new-employee'>
+            <Button variant='outlined'>New Employee</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </Box>
