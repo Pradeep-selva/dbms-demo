@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { EmployeeSummary } from "../../entities";
 import { ApiEndpoints, API_SUCCESS } from "../../config";
+import { EmployeeSummaryCard } from "../../components";
 
 type EmployeeList = Array<EmployeeSummary>;
 
@@ -22,7 +23,16 @@ const Home = () => {
 
   return (
     <Container>
-      <h1>Employees</h1>
+      <h1
+        style={{
+          marginBottom: "4rem"
+        }}
+      >
+        Employees
+      </h1>
+      {employees.map((employee) => (
+        <EmployeeSummaryCard {...employee} />
+      ))}
     </Container>
   );
 };
