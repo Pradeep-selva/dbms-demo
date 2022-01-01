@@ -4,6 +4,7 @@ import { EmployeeSummary } from "../../entities";
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
 import { getAgeInYears, getCapitalizedName } from "../../utils";
+import ConfirmationDialog from "../confirmation-dialog";
 
 const EmployeeSummaryCard: React.FC<EmployeeSummary> = ({
   bdate,
@@ -12,53 +13,65 @@ const EmployeeSummaryCard: React.FC<EmployeeSummary> = ({
   lname,
   ssn
 }) => {
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleClose = () => setOpenDialog(false);
+  const handleOpen = () => setOpenDialog(true);
+
   return (
-    <Card
-      variant='outlined'
-      style={{
-        borderColor: "#41487d",
-        borderWidth: 2,
-        marginBottom: "1rem",
-        backgroundColor: "#0f101c"
-      }}
-    >
-      <CardContent
+    <>
+      <Card
+        variant='outlined'
         style={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "row"
+          borderColor: "#41487d",
+          borderWidth: 2,
+          marginBottom: "1rem",
+          backgroundColor: "#0f101c"
         }}
       >
-        <Box
-          {...{
+        <CardContent
+          style={{
             display: "flex",
-            flexDirection: "column",
-            flex: 1
+            alignItems: "center",
+            flexDirection: "row"
           }}
         >
-          <Typography align='left' color='GrayText'>
-            <b>{ssn}</b>
+          <Box
+            {...{
+              display: "flex",
+              flexDirection: "column",
+              flex: 1
+            }}
+          >
+            <Typography align='left' color='GrayText'>
+              <b>{ssn}</b>
+            </Typography>
+            <Typography align='left' color='white'>
+              {getCapitalizedName(fname, lname)}
+            </Typography>
+          </Box>
+          <Typography align='left' color='white' flex={1}>
+            Dept. {dno}
           </Typography>
-          <Typography align='left' color='white'>
-            {getCapitalizedName(fname, lname)}
+          <Typography align='left' color='white' flex={1}>
+            {getAgeInYears(bdate)} yrs old
           </Typography>
-        </Box>
-        <Typography align='left' color='white' flex={1}>
-          Dept. {dno}
-        </Typography>
-        <Typography align='left' color='white' flex={1}>
-          {getAgeInYears(bdate)} yrs old
-        </Typography>
-        <Link to={`/employee/${ssn}`}>
-          <Button variant='outlined' style={{ marginRight: "0.5rem" }}>
-            View
+          <Link to={`/employee/${ssn}`}>
+            <Button variant='outlined' style={{ marginRight: "0.5rem" }}>
+              View
+            </Button>
+          </Link>
+          <Button variant='outlined' color='error' onClick={handleOpen}>
+            Delete
           </Button>
-        </Link>
-        <Button variant='outlined' color='error'>
-          Delete
-        </Button>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+      <ConfirmationDialog
+        handleClose={handleClose}
+        open={openDialog}
+        ssn={ssn}
+      />
+    </>
   );
 };
 

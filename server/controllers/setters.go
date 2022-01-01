@@ -65,6 +65,7 @@ func DeleteEmployee(DB *sql.DB) func (c *gin.Context) {
 		_, err := query.Exec(SSN) 
 
 		if err != nil {
+			log.Println(err)
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": "Failed to insert working data",
 			})
