@@ -22,7 +22,9 @@ const Home = () => {
   return (
     <Container>
       {!!employees.length ? (
-        employees.map((employee) => <EmployeeSummaryCard {...employee} />)
+        employees.map((employee) => (
+          <EmployeeSummaryCard {...employee} key={employee.ssn} />
+        ))
       ) : (
         <CircularProgress size={100} />
       )}
